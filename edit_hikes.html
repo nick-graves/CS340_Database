@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hiking Database - Edit Database</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>HikeHub</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="hikes.html">View Hikes</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h2>Edit Database</h2>
+        <h3>Add a New Hike</h3>
+        <form>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required><br>
+
+            <label for="location">Location:</label>
+            <input type="text" id="location" name="location" required><br>
+
+            <label for="distance">Distance:</label>
+            <input type="text" id="distance" name="distance" required><br>
+
+            <label for="elevation">Elevation:</label>
+            <input type="text" id="elevation" name="elevation" required><br>
+
+            <label for="difficulty">Difficulty:</label>
+            <input type="text" id="difficulty" name="difficulty" required><br>
+
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" required></textarea><br>
+
+            <button type="submit">Add Hike</button>
+        </form>
+
+        <h3>Add Review to Existing Hike</h3>
+        <form>
+            <label for="hike">Select Hike:</label>
+            <select id="hike" name="hike" required>
+                <option value="">Select a hike</option>
+            </select><br>
+
+            <label for="review">Review:</label>
+            <textarea id="review" name="review" required></textarea><br>
+
+            <button type="submit">Add Review</button>
+        </form>
+    </main>
+</body>
+</html>
