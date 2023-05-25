@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hiking Database - View Hikes</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      text-align: left;
+      padding: 8px;
+      border: 1px solid #ddd;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>HikeHub</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="edit_hikes.html">Edit Database</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <h2>View Hikes</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Location</th>
+          <th>Distance</th>
+          <th>Elevation</th>
+          <th>Difficulty</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Mount Everest</td>
+          <td>Nepal</td>
+          <td>8,848 meters</td>
+          <td>8,848 meters</td>
+          <td>Difficult</td>
+          <td>The highest mountain in the world.</td>
+        </tr>
+        <tr>
+          <td>Half Dome</td>
+          <td>Yosemite National Park, California</td>
+          <td>14.2 miles</td>
+          <td>4,737 feet</td>
+          <td>Difficult</td>
+          <td>A granite dome in Yosemite National Park.</td>
+        </tr>
+        <tr>
+          <td>Angel's Landing</td>
+          <td>Zion National Park, Utah</td>
+          <td>5.4 miles</td>
+          <td>1,488 feet</td>
+          <td>Moderate to Difficult</td>
+          <td>A trail with steep drop-offs and stunning views.</td>
+        </tr>
+      </tbody>
+    </table>
+    <h2>Users</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>John Smith</td>
+          <td>john.smith@example.com</td>
+        </tr>
+        <tr>
+          <td>Jane Doe</td>
+          <td>jane.doe@example.com</td>
+        </tr>
+        <tr>
+          <td>Bob Johnson</td>
+          <td>bob.johnson@example.com</td>
+        </tr>
+      </tbody>
+    </table>
+    <h2>Saved Hikes</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Hike ID</th>
+          <th>Hike Name</th>
+          <th>User ID</th>
+          <th>Saved Hike ID</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Mount Everest</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Half Dome</td>
+          <td>2</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Angel's Landing</td>
+          <td>3</td>
+          <td>2</td>
+        </tr>
+      </tbody>
+    </table>
+    <h2>Reviews</h2>
+    <table>
+    <thead>
+        <tr>
+        <th>User ID</th>
+        <th>Hike Name</th>
+        <th>Hike Rating</th>
+        <th>Hike Comments</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+        <td>1</td>
+        <td>Mount Everest</td>
+        <td>5</td>
+        <td>Amazing experience!</td>
+        </tr>
+        <tr>
+        <td>2</td>
+        <td>Half Dome</td>
+        <td>4</td>
+        <td>Great hike, but very challenging.</td>
+        </tr>
+        <tr>
+        <td>3</td>
+        <td>Angel's Landing</td>
+        <td>5</td>
+        <td>One of the most beautiful hikes I've ever done.</td>
+        </tr>
+    </tbody>
+    </table>
+  </main>
+</body>
+</html>
