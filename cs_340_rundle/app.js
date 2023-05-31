@@ -19,24 +19,100 @@ app.use(express.static('public'));
 
 
 
-
-
+// renders homepage
 app.get('/', function(req, res)
 {
 
     res.render('homePage', {});
 });
 
+// renders hikes
 app.get('/hikes', function(req, res)
 {
-    res.render('hikes', {});
+    // populates hikes page
+    let get_hikes = `SELECT HikeID, Name, Location, Distance, Elevation, Difficulty, Description FROM Hikes;`;
+
+    db.pool.query(get_hikes, function(error, hikes_rows, fields) 
+    {
+        if (error) 
+        {
+            console.error(error);
+            res.sendStatus(500);
+        } 
+        else 
+        {
+            res.render('hikes', { hikes: hikes_rows });
+        }
+
+    });
+
+
 });
 
+// renders get hikes
 app.get('/edit_hikes', function(req, res)
 {
 
     res.render('edit_hikes', {});
 });
+
+
+
+// add new hike
+app.post('/add_new_hike', function(req, res)
+{
+    let form_input = req.body;
+
+
+    let insert_hikes = `INSERT INTO Hikes (Name, Location, Distance, Elevation, Difficulty, Description) 
+                          VALUES (?, ?, ?, ?, ?, ?)`;
+
+    let parameters = [
+        form_input['input-Name'],
+        form_input['input-Location'],
+        form_input['input-Distance'],
+        form_input['input-Elevation'],
+        form_input['input-Difficulty'],
+        form_input['input-Description']
+    ];
+
+
+    db.pool.query(insert_hikes, parameters, function(error, result)
+    {
+        if (error) 
+        {
+            console.log(error);
+            res.sendStatus(500);
+        }
+
+        else
+        {
+            let get_hikes = `SELECT HikeID, Name, Location, Distance, Elevation, Difficulty, Description FROM Hikes;`;
+            db.pool.query(get_hikes, function(error, hikes_rows) 
+            {
+                if (error) 
+                {
+                    console.log(error);
+                    res.sendStatus(500); // Send HTTP response 500 for internal server error
+                } 
+                else 
+                {
+                    res.render('edit_hikes', { hikes: hikes_rows });
+                }
+            });
+
+        }
+
+
+    });
+
+});
+
+
+
+
+
+
 
 
 
