@@ -45,7 +45,7 @@
             <select id="hike" name="hike" required>
                 <option value="">Select a hike</option>
                 {{#each hikes}}
-                <option value="{{this.id}}">{{this.name}}</option>
+                <option value="{{this.HikeID}}">{{Name}}</option>
                 {{/each}}
             </select><br>
 
@@ -53,6 +53,21 @@
             <textarea id="review" name="review" required></textarea><br>
 
             <button type="submit">Add Review</button>
+        </form>
+
+         <h3>Delete a Hike </h3>
+        <form id="delete_new_hike" method="POST" action="/delete_new_hike">
+            <label for="hike">Select Hike:</label>
+            <select id="hike" name="hike" required>
+                <option value="">Select a hike</option>
+                {{#each hikes}}
+                <option value="{{this.HikeID}}">{{Name}}</option>
+                {{/each}}
+            </select><br>
+
+            
+
+            <button type="submit">Delete</button>
         </form>
     </main>
 </body>

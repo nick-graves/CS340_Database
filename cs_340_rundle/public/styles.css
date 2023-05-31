@@ -91,26 +91,27 @@ p
     display: none;
 }
   
-.popup 
-{
+.popup {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: #fff;
-    padding: 20px;
+    padding: 30px; /* Increased padding for more space */
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    width: 300px;
+    width: 400px; /* Increased width for more space */
+    display: flex; /* Added flex display */
+    flex-direction: column; /* Set flex direction to column */
+    align-items: flex-start; /* Align items to the left */
+    justify-content: center; /* Center align items vertically */
 }
-  
-.popup h2 
-{
+
+.popup h2 {
     margin-top: 0;
 }
-  
-.popup .close 
-{
+
+.popup .close {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -119,30 +120,31 @@ p
     text-decoration: none;
     color: #333;
 }
-  
-.popup .content 
-{
+
+.popup .content {
     margin-top: 20px;
+    text-align: center; /* Center align text within the content */
 }
-  
-.popup form label 
-{
-    display: block;
+
+.popup form label {
+    display: flex; /* Added flex display */
+    align-items: center; /* Align items vertically */
     margin-bottom: 5px;
+    color: #333; /* Added color for better visibility */
+    text-align: left; /* Align text to the left */
 }
-  
+
 .popup form input[type="email"],
-.popup form input[type="password"] 
-{
-    width: 90%;
+.popup form input[type="password"],
+.popup form input[type="text"] {
+    width: 100%; /* Adjusted width to occupy full space */
     padding: 10px;
     border-radius: 5px;
     border: 1px solid #000;
     margin-bottom: 10px;
 }
-  
-.popup form button[type="submit"] 
-{
+
+.popup form button[type="submit"] {
     background-color: #333;
     color: #fff;
     border: none;
@@ -151,10 +153,7 @@ p
     cursor: pointer;
 }
 
-.popup form label 
-{
-    color: #333;
-}
+
 
 
 

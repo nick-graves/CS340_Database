@@ -117,12 +117,34 @@ app.post('/add_new_hike', function(req, res)
 });
 
 
+app.post('/delete_new_hike', function(req, res)
+{
+    let hikeID = req.body.hike;
+
+    let delete_hikes = 'DELETE FROM Hikes WHERE hikeID = ?';
+    let delete_hikes_review = 'DELETE FROM Reviews WHERE hikeID = ?';
+    let delete_hikes_saved = 'DELETE FROM Saved WHERE hikeID = ?';
+    
+    let parameters = [hikeID];
 
 
+    db.pool.query(delete_hikes, parameters, function(error, result)
+    {
+        if (error) 
+        {
+            console.log(error);
+            res.sendStatus(500);
+        }
+        else
+        {
+            res.redirect('/hikes');
+        }
 
 
+    });
 
 
+});
 
 
 
@@ -131,11 +153,3 @@ app.listen(PORT, () =>
 {
     console.log(`Server is running on port ${PORT}`);
 });
-
-
-
-
-
-
-
-
