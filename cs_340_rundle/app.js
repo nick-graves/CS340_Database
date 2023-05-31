@@ -97,7 +97,7 @@ app.post('/add_new_hike', function(req, res)
                 } 
                 else 
                 {
-                    res.render('edit_hikes', { hikes: hikes_rows });
+                    res.render('hikes', { hikes: hikes_rows });
                 }
             });
 
