@@ -52,8 +52,16 @@ app.get('/hikes', function(req, res)
 // renders get hikes
 app.get('/edit_hikes', function(req, res)
 {
-
-    res.render('edit_hikes', {});
+    let getHikesQuery = "SELECT HikeID, Name FROM Hikes";
+    db.pool.query(getHikesQuery, function(error, hikes_rows) {
+        if (error) {
+            console.error(error);
+            res.sendStatus(500);
+        } else {
+            res.render('edit_hikes', { hikes: hikes_rows });
+        }
+    });
+    //res.render('edit_hikes', {});
 });
 
 
@@ -123,3 +131,11 @@ app.listen(PORT, () =>
 {
     console.log(`Server is running on port ${PORT}`);
 });
+
+
+
+
+
+
+
+
