@@ -30,48 +30,38 @@ app.get('/', function(req, res)
 app.get('/hikes', function(req, res)
 {
     // populates hikes page
-    let getHikesQuery = `SELECT HikeID, Name, Location, Distance, Elevation, Difficulty, Description FROM Hikes;`;
-    let getReviewsQuery = `SELECT ReviewID, UserID, HikeID, Rating, Comment FROM Reviews;`;
+    let get_hikes = `SELECT HikeID, Name, Location, Distance, Elevation, Difficulty, Description FROM Hikes;`;
 
-    db.pool.query(getHikesQuery, function(error, hikesRows, fields) {
-        if (error) {
+    db.pool.query(get_hikes, function(error, hikes_rows, fields) 
+    {
+        if (error) 
+        {
             console.error(error);
             res.sendStatus(500);
-        } else {
-            // Once hikes data is retrieved, fetch the reviews data
-            db.pool.query(getReviewsQuery, function(error, reviewsRows, fields) {
-                if (error) {
-                    console.error(error);
-                    res.sendStatus(500);
-                } else {
-                    // Render the 'hikes' template and pass both hikes and reviews data to it
-                    res.render('hikes', { hikes: hikesRows, reviews: reviewsRows });
-                }
-            });
+        } 
+        else 
+        {
+            res.render('hikes', { hikes: hikes_rows });
         }
-    });
-});
 
-app.get('/saved', function(req, res) {
-    // Retrieve saved hikes data from the database
-    let getSavedQuery = `SELECT SavedHikeID, HikeID FROM Saved;`;
-
-    db.pool.query(getSavedQuery, function(error, savedRows, fields) {
-        if (error) {
-            console.error(error);
-            res.sendStatus(500);
-        } else {
-            // Render the 'saved' template and pass the saved hikes data to it
-            res.render('saved', { saved: savedRows });
-        }
     });
+
+
 });
 
 // renders get hikes
 app.get('/edit_hikes', function(req, res)
 {
-
-    res.render('edit_hikes', {});
+    let getHikesQuery = "SELECT HikeID, Name FROM Hikes";
+    db.pool.query(getHikesQuery, function(error, hikes_rows) {
+        if (error) {
+            console.error(error);
+            res.sendStatus(500);
+        } else {
+            res.render('edit_hikes', { hikes: hikes_rows });
+        }
+    });
+    //res.render('edit_hikes', {});
 });
 
 
@@ -126,12 +116,189 @@ app.post('/add_new_hike', function(req, res)
 
 });
 
+// delete a hike
+app.post('/delete_new_hike', function(req, res)
+{
+    let hikeID = req.body.hike;
+
+    let delete_hikes = 'DELETE FROM Hikes WHERE hikeID = ?';
+    let delete_hikes_review = 'DELETE FROM Reviews WHERE hikeID = ?';
+    let delete_hikes_saved = 'DELETE FROM Saved WHERE hikeID = ?';
+    
+    let parameters = [hikeID];
+
+
+    db.pool.query(delete_hikes_saved, parameters, function(error, result)
+    {
+        if (error) 
+        {
+            console.log(error);
+            res.sendStatus(500);
+        }
+        else
+        {
+            db.pool.query(delete_hikes_review, parameters, function(error, result)
+            {   
+                if (error)
+                {
+                    console.log(error);
+                    res.sendStatus(500);
+                }
+                else
+                {
+                    db.pool.query(delete_hikes, parameters, function(error, result)
+                    {
+                        if (error)
+                        {
+                            console.log(error);
+                            res.sendStatus(500);
+                        }
+                        else
+                        {
+                            res.redirect('/hikes');
+
+                        }
+
+                    });
+                }
+            });
+
+        }
+
+    });
+
+});
+
+
+// modify a hike
+app.post('/modify_hike', function(req, res)
+{
+    let form_input = req.body;
+    let HikeID = req.body.hike;
+
+    let parameters_name = [form_input['input-Name'], HikeID];
+    let parameters_location = [form_input['input-Location'], HikeID];
+    let parameters_distance = [form_input['input-Distance'], HikeID];
+    let parameters_elevation = [form_input['input-Elevation'], HikeID];
+    let parameters_difficulty = [form_input['input-Difficulty'], HikeID];
+    let parameters_description = [form_input['input-Description'], HikeID];
 
 
 
+    let modify_name = 'UPDATE Hikes SET Name = ? WHERE HikeID = ?;';
+    let modify_location = 'UPDATE Hikes SET Location = ? WHERE HikeID = ?;';
+    let modify_distance = 'UPDATE Hikes SET Distance = ? WHERE HikeID = ?;';
+    let modify_elevation = 'UPDATE Hikes SET Elevation = ? WHERE HikeID = ?;';
+    let modify_difficulty = 'UPDATE Hikes SET Difficulty = ? WHERE HikeID = ?;';
+    let modify_description = 'UPDATE Hikes SET Description = ? WHERE HikeID = ?;';
 
 
+    db.pool.query(modify_name, parameters_name, function(error, result)
+    {
+        if (error) 
+        {
+            console.log(error);
+            res.sendStatus(500);
+        }
+        else
+        {
+            db.pool.query(modify_location, parameters_location, function(error, result)
+            {
+                if (error) 
+                {
+                    console.log(error);
+                    res.sendStatus(500);
+                }
+                else
+                {
+                    db.pool.query(modify_distance, parameters_distance, function(error, result)
+                    {
+                        if (error) 
+                        {
+                            console.log(error);
+                            res.sendStatus(500);
+                        }
+                        else
+                        {
+                            db.pool.query(modify_elevation, parameters_elevation, function(error, result)
+                            {
+                                if (error) 
+                                {
+                                    console.log(error);
+                                    res.sendStatus(500);
+                                }
+                                else
+                                {
+                                    db.pool.query(modify_difficulty, parameters_difficulty, function(error, result)
+                                    {
+                                        if (error) 
+                                        {
+                                            console.log(error);
+                                            res.sendStatus(500);
+                                        }
+                                        else
+                                        {
+                                            db.pool.query(modify_description, parameters_description, function(error, result)
+                                            {
+                                                if (error) 
+                                                {
+                                                    console.log(error);
+                                                    res.sendStatus(500);
+                                                }
+                                                else
+                                                {
+                                                    res.redirect('/hikes');
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
 
+            });
+        }
+    });
+});
+
+
+app.post('/add_new_user', function(req, res)
+{
+    let form_input = req.body;
+
+    let parameters = [
+        form_input['input-Name'],
+        form_input['input-Email'],
+        form_input['input-Password']
+    ];
+
+    let add_new_user = `INSERT INTO Users (Name, Email, Password) 
+                        VALUES (?, ?, ?)`;
+
+    
+    
+    
+    db.pool.query(add_new_user, parameters, function(error, result)
+    {
+        if (error) 
+        {
+            console.log(error);
+            res.sendStatus(500);
+        }
+        else
+        {
+
+
+            res.render('homepage');
+        }
+
+
+    });
+
+
+});
 
 
 
@@ -141,12 +308,3 @@ app.listen(PORT, () =>
 {
     console.log(`Server is running on port ${PORT}`);
 });
-
-
-
-
-
-
-
-
-

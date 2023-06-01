@@ -14,7 +14,6 @@
             <ul>
                 <li><a href="/hikes">View Hikes</a></li>
                 <li><a href="/edit_hikes">Edit Database</a></li>
-                <li><a href="/saved">View Saved Hikes</a></li>
                 <li><a href="#login-popup">Login</a></li>
             </ul>
         </nav>
@@ -23,13 +22,13 @@
               <h2>Login</h2>
               <a class="close" href="#">&times;</a>
               <div class="content">
-                <form>
+                <form id="add_new_user" method="POST" action="/add_new_user">
                   <label for="name">Name:</label>
-                  <input type="text" id="Name" name="Name" required>
+                  <input type="text" id="input-Name" name="input-Name" required>
                   <label for="email">Email:</label>
-                  <input type="text" id="email" name="email" required>
+                  <input type="text" id="input-Email" name="input-Email" required>
                   <label for="password">Password:</label>
-                  <input type="Password" id="password" name="password" required>
+                  <input type="Password" id="input-Password" name="input-Password" required>
                   <button type="submit">Login</button>
                 </form>
               </div>

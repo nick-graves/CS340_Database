@@ -29,8 +29,13 @@ INSERT INTO Reviews (UserID, HikeID, Rating, Comment)
 VALUES (:UserIDInput, :HikeIDInput, :RatingInput, :CommentInput);
 
 -- UPDATE queries
--- Update the difficulty level of a specific hike (dynamic inputs: HikeID, Difficulty)
+-- Update the exisiting hike
+UPDATE Hikes SET Name = :NameInput WHERE HikeID = :HikeIDInput;
+UPDATE Hikes SET Location = :LocationInput WHERE HikeID = :HikeIDInput;
+UPDATE Hikes SET Distance = :DistanceInput WHERE HikeID = :HikeIDInput;
+UPDATE Hikes SET Elevation = :ElevationInput WHERE HikeID = :HikeIDInput;
 UPDATE Hikes SET Difficulty = :DifficultyInput WHERE HikeID = :HikeIDInput;
+UPDATE Hikes SET Description = :DescriptionInput WHERE HikeID = :HikeIDInput;
 
 -- Update the email address of a specific user (dynamic inputs: UserID, Email)
 UPDATE Users SET Email = :EmailInput WHERE UserID = :UserIDInput;
