@@ -52,6 +52,21 @@ app.get('/hikes', function(req, res)
     });
 });
 
+app.get('/saved', function(req, res) {
+    // Retrieve saved hikes data from the database
+    let getSavedQuery = `SELECT SavedHikeID, HikeID FROM Saved;`;
+
+    db.pool.query(getSavedQuery, function(error, savedRows, fields) {
+        if (error) {
+            console.error(error);
+            res.sendStatus(500);
+        } else {
+            // Render the 'saved' template and pass the saved hikes data to it
+            res.render('saved', { saved: savedRows });
+        }
+    });
+});
+
 // renders get hikes
 app.get('/edit_hikes', function(req, res)
 {
