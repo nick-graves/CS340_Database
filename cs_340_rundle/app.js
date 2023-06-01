@@ -30,38 +30,33 @@ app.get('/', function(req, res)
 app.get('/hikes', function(req, res)
 {
     // populates hikes page
-    let get_hikes = `SELECT HikeID, Name, Location, Distance, Elevation, Difficulty, Description FROM Hikes;`;
+    let getHikesQuery = `SELECT HikeID, Name, Location, Distance, Elevation, Difficulty, Description FROM Hikes;`;
+    let getReviewsQuery = `SELECT ReviewID, UserID, HikeID, Rating, Comment FROM Reviews;`;
 
-    db.pool.query(get_hikes, function(error, hikes_rows, fields) 
-    {
-        if (error) 
-        {
+    db.pool.query(getHikesQuery, function(error, hikesRows, fields) {
+        if (error) {
             console.error(error);
             res.sendStatus(500);
-        } 
-        else 
-        {
-            res.render('hikes', { hikes: hikes_rows });
+        } else {
+            // Once hikes data is retrieved, fetch the reviews data
+            db.pool.query(getReviewsQuery, function(error, reviewsRows, fields) {
+                if (error) {
+                    console.error(error);
+                    res.sendStatus(500);
+                } else {
+                    // Render the 'hikes' template and pass both hikes and reviews data to it
+                    res.render('hikes', { hikes: hikesRows, reviews: reviewsRows });
+                }
+            });
         }
-
     });
-
-
 });
 
 // renders get hikes
 app.get('/edit_hikes', function(req, res)
 {
-    let getHikesQuery = "SELECT HikeID, Name FROM Hikes";
-    db.pool.query(getHikesQuery, function(error, hikes_rows) {
-        if (error) {
-            console.error(error);
-            res.sendStatus(500);
-        } else {
-            res.render('edit_hikes', { hikes: hikes_rows });
-        }
-    });
-    //res.render('edit_hikes', {});
+
+    res.render('edit_hikes', {});
 });
 
 
@@ -117,34 +112,12 @@ app.post('/add_new_hike', function(req, res)
 });
 
 
-app.post('/delete_new_hike', function(req, res)
-{
-    let hikeID = req.body.hike;
-
-    let delete_hikes = 'DELETE FROM Hikes WHERE hikeID = ?';
-    let delete_hikes_review = 'DELETE FROM Reviews WHERE hikeID = ?';
-    let delete_hikes_saved = 'DELETE FROM Saved WHERE hikeID = ?';
-    
-    let parameters = [hikeID];
 
 
-    db.pool.query(delete_hikes, parameters, function(error, result)
-    {
-        if (error) 
-        {
-            console.log(error);
-            res.sendStatus(500);
-        }
-        else
-        {
-            res.redirect('/hikes');
-        }
 
 
-    });
 
 
-});
 
 
 
@@ -153,3 +126,12 @@ app.listen(PORT, () =>
 {
     console.log(`Server is running on port ${PORT}`);
 });
+
+
+
+
+
+
+
+
+
