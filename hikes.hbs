@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hiking Database - View Hikes</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      text-align: left;
+      padding: 8px;
+      border: 1px solid #ddd;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>HikeHub</h1>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/edit_hikes">Edit Database</a></li>
+        <li><a href="/saved">View Saved Hikes</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <h2>View Hikes</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Location</th>
+          <th>Distance</th>
+          <th>Elevation</th>
+          <th>Difficulty</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+        {{#each hikes}}
+          <tr>
+            <td>{{Name}}</td>
+            <td>{{Location}}</td>
+            <td>{{Distance}}</td>
+            <td>{{Elevation}}</td>
+            <td>{{Difficulty}}</td>
+            <td>{{Description}}</td>
+          </tr>
+        {{/each}}
+        </tr>
+      </tbody>
+    </table>
+    <h2>Reviews</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Rating</th>
+          <th>Comment</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each reviews}}
+          <tr>
+            <td>{{Rating}}</td>
+            <td>{{Comment}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </main>
+</body>
+</html>
