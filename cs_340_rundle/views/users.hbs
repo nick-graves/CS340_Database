@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hiking Database - View All Users</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      text-align: left;
+      padding: 8px;
+      border: 1px solid #ddd;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>HikeHub</h1>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/edit_hikes">Edit Database</a></li>
+        <li><a href="/hikes">View Hikes</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <h2>View All Users</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>UserID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Password</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each users}}
+          <tr>
+            <td>{{UserID}}</td>
+            <td>{{Name}}</td>
+            <td>{{Email}}</td>
+            <td>{{Password}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </main>
+</body>
+</html>
