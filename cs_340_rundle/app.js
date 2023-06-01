@@ -27,27 +27,27 @@ app.get('/', function(req, res)
 });
 
 // renders hikes
-app.get('/hikes', function(req, res)
-{
-    // populates hikes page
-    let get_hikes = `SELECT HikeID, Name, Location, Distance, Elevation, Difficulty, Description FROM Hikes;`;
+// app.get('/hikes', function(req, res)
+// {
+//     // populates hikes page
+//     let get_hikes = `SELECT HikeID, Name, Location, Distance, Elevation, Difficulty, Description FROM Hikes;`;
 
-    db.pool.query(get_hikes, function(error, hikes_rows, fields) 
-    {
-        if (error) 
-        {
-            console.error(error);
-            res.sendStatus(500);
-        } 
-        else 
-        {
-            res.render('hikes', { hikes: hikes_rows });
-        }
+//     db.pool.query(get_hikes, function(error, hikes_rows, fields) 
+//     {
+//         if (error) 
+//         {
+//             console.error(error);
+//             res.sendStatus(500);
+//         } 
+//         else 
+//         {
+//             res.render('hikes', { hikes: hikes_rows });
+//         }
 
-    });
+//     });
 
 
-});
+// });
 
 // renders get hikes
 app.get('/edit_hikes', function(req, res)
@@ -63,6 +63,74 @@ app.get('/edit_hikes', function(req, res)
     });
     //res.render('edit_hikes', {});
 });
+
+
+
+
+
+
+
+
+app.get('/saved', function(req, res) {
+    // Retrieve saved hikes data from the database
+    let getSavedQuery = 'SELECT SavedHikeID, HikeID FROM Saved;';
+
+    db.pool.query(getSavedQuery, function(error, savedRows, fields) {
+        if (error) {
+            console.error(error);
+            res.sendStatus(500);
+        } else {
+            // Render the 'saved' template and pass the saved hikes data to it
+            res.render('saved', { saved: savedRows });
+        }
+    });
+});
+
+app.get('/users', function(req, res) {
+    // Retrieve saved hikes data from the database
+    let getUsersQuery = 'SELECT UserID, Name, Email, Password FROM Users;';
+
+    db.pool.query(getUsersQuery, function(error, userRows, fields) {
+        if (error) {
+            console.error(error);
+            res.sendStatus(500);
+        } else {
+            // Render the 'saved' template and pass the saved hikes data to it
+            res.render('users', { users: userRows });
+        }
+    });
+});
+app.get('/hikes', function(req, res)
+{
+    // populates hikes page
+    let getHikesQuery = 'SELECT HikeID, Name, Location, Distance, Elevation, Difficulty, Description FROM Hikes;';
+    let getReviewsQuery = 'SELECT ReviewID, UserID, HikeID, Rating, Comment FROM Reviews;';
+
+    db.pool.query(getHikesQuery, function(error, hikesRows, fields) {
+        if (error) {
+            console.error(error);
+            res.sendStatus(500);
+        } else {
+            // Once hikes data is retrieved, fetch the reviews data
+            db.pool.query(getReviewsQuery, function(error, reviewsRows, fields) {
+                if (error) {
+                    console.error(error);
+                    res.sendStatus(500);
+                } else {
+                    // Render the 'hikes' template and pass both hikes and reviews data to it
+                    res.render('hikes', { hikes: hikesRows, reviews: reviewsRows });
+                }
+            });
+        }
+    });
+});
+
+
+
+
+
+
+
 
 
 
