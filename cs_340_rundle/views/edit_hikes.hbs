@@ -72,7 +72,7 @@
             <button type="submit">Make Changes</button>
         </form>
 
-         <h3>Delete a Hike </h3>
+        <h3>Delete a Hike </h3>
         <form id="delete_new_hike" method="POST" action="/delete_new_hike">
             <label for="hike">Select Hike:</label>
             <select id="hike" name="hike" required>
@@ -86,6 +86,38 @@
 
             <button type="submit">Delete</button>
         </form>
+
+
+        <h3>Add A Review </h3>
+        <form id="add_review" method="POST" action="/add_review">
+            <label for="hike">Select Hike:</label>
+            <select id="hike" name="hike" required>
+                <option value="">Select a hike</option>
+                {{#each hikes}}
+                <option value="{{this.HikeID}}">{{Name}}</option>
+                {{/each}}
+            </select><br>
+
+            <label for="user">Select User:</label>
+            <select id="user" name="user" required>
+                <option value="">Select User</option>
+                {{#each users}}
+                <option value="{{this.UserID}}">{{Name}}</option>
+                {{/each}}
+            </select><br>
+
+            <label for="input-Rating">Rating:</label>
+            <input type="text" id="input-Rating" name="input-Rating" required><br>
+
+            <label for="input-Review">Review:</label>
+            <textarea id="input-Review" name="input-Review" required></textarea><br>
+
+        
+            <button type="submit">Add Review</button>
+        </form>
+
+
+
     </main>
 </body>
 </html>

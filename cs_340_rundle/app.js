@@ -53,12 +53,29 @@ app.get('/', function(req, res)
 app.get('/edit_hikes', function(req, res)
 {
     let getHikesQuery = "SELECT HikeID, Name FROM Hikes";
+    let getUsersQuery = "SELECT Name FROM Users"
+
     db.pool.query(getHikesQuery, function(error, hikes_rows) {
         if (error) {
             console.error(error);
             res.sendStatus(500);
-        } else {
-            res.render('edit_hikes', { hikes: hikes_rows });
+        } 
+        else 
+        {
+            db.pool.query(getUsersQuery, function(error, users_rows)
+            {
+                if (error) 
+                {
+                    console.error(error);
+                    res.sendStatus(500);
+                } 
+                else
+                {
+                    res.render('edit_hikes', { hikes: hikes_rows, users: users_rows});
+                }
+
+
+            });
         }
     });
     //res.render('edit_hikes', {});
@@ -365,6 +382,41 @@ app.post('/add_new_user', function(req, res)
 
     });
 
+
+});
+
+
+// add a new review
+app.post('/add_review', function(req, res)
+{
+    let form_input = req.body;
+    let hikeID = req.body.hike;
+    let userID = req.body.user;
+
+
+    let add_new_review = `INSERT INTO Reviews (UserID, HikeID, Rating, Comment) 
+                            VALUES (?, ?, ?, ?)`;
+ 
+                            
+
+    let parameters = [userID, hikeID, form_input['input-Rating'], form_input['input-Review']]
+
+
+    db.pool.query(add_new_review, parameters, function(error, result)
+    {
+        if (error) 
+        {
+            console.log(error);
+            res.sendStatus(500);
+        }
+        else
+        {
+            res.redirect('/hikes');
+
+        }
+
+
+    });
 
 });
 
