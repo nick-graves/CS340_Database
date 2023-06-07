@@ -3,7 +3,7 @@ var db = require('./db_connector')
 // Express
 var express = require('express');   // We are using the express library for the web server
 var app     = express();            // We need to instantiate an express object to interact with the server in our code
-const PORT  = 9571;                 // Set a port number at the top so it's easy to change in the future
+const PORT  = 4000;                 // Set a port number at the top so it's easy to change in the future
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
@@ -53,7 +53,9 @@ app.get('/', function(req, res)
 app.get('/edit_hikes', function(req, res)
 {
     let getHikesQuery = "SELECT HikeID, Name FROM Hikes";
-    let getUsersQuery = "SELECT Name FROM Users"
+    let getUsersQuery = "SELECT UserID, Name FROM Users";
+    let getReviewsQuery = "SELECT ReviewID FROM Reviews";
+    let getSavedQuery = 'SELECT SavedHikeID, HikeID, UserID FROM Saved;';
 
     db.pool.query(getHikesQuery, function(error, hikes_rows) {
         if (error) {
@@ -71,7 +73,35 @@ app.get('/edit_hikes', function(req, res)
                 } 
                 else
                 {
-                    res.render('edit_hikes', { hikes: hikes_rows, users: users_rows});
+                    db.pool.query(getReviewsQuery, function(error, reviews_rows)
+                    {
+                        if (error) 
+                        {
+                            console.error(error);
+                            res.sendStatus(500);
+                        }
+                        else
+                        {
+                            db.pool.query(getSavedQuery, function(error, savedRows)
+                            {
+                                if (error) 
+                                {
+                                    console.error(error);
+                                    res.sendStatus(500);
+                                }
+                                else
+                                {
+                                    res.render('edit_hikes', { hikes: hikes_rows, users: users_rows, reviews: reviews_rows, saved: savedRows});
+
+                                }
+
+                            });
+
+
+
+                        }
+
+                    });
                 }
 
 
@@ -90,7 +120,7 @@ app.get('/edit_hikes', function(req, res)
 
 app.get('/saved', function(req, res) {
     // Retrieve saved hikes data from the database
-    let getSavedQuery = 'SELECT SavedHikeID, HikeID FROM Saved;';
+    let getSavedQuery = 'SELECT SavedHikeID, HikeID, UserID FROM Saved;';
 
     db.pool.query(getSavedQuery, function(error, savedRows, fields) {
         if (error) {
@@ -394,10 +424,11 @@ app.post('/add_review', function(req, res)
     let userID = req.body.user;
 
 
+
     let add_new_review = `INSERT INTO Reviews (UserID, HikeID, Rating, Comment) 
                             VALUES (?, ?, ?, ?)`;
  
-                            
+                      
 
     let parameters = [userID, hikeID, form_input['input-Rating'], form_input['input-Review']]
 
@@ -411,8 +442,8 @@ app.post('/add_review', function(req, res)
         }
         else
         {
+            
             res.redirect('/hikes');
-
         }
 
 
@@ -420,6 +451,148 @@ app.post('/add_review', function(req, res)
 
 });
 
+
+
+
+
+app.post('/delete_review', function(req, res)
+{
+    let reviewID = req.body.review;
+
+    let delete_review = 'DELETE FROM Reviews WHERE ReviewID = ?';
+
+    db.pool.query(delete_review, reviewID, function(error, result)
+    {
+        if (error) 
+        {
+            console.log(error);
+            res.sendStatus(500);
+        }
+        else
+        {
+            
+            res.redirect('/hikes');
+        }
+
+
+    });
+
+});
+
+
+
+app.post('/save_hike', function(req, res)
+{
+    let form_input = req.body;
+    let hikeID = req.body.hike;
+    let userID = req.body.user;
+
+    let parameters = [userID, hikeID];
+
+    let save_hike = `INSERT INTO Saved (UserID, HikeID)
+                    VALUES (?, ?)`;
+
+
+
+    db.pool.query(save_hike, parameters, function(error, result)
+    {
+        if (error) 
+        {
+            console.log(error);
+            res.sendStatus(500);
+        }
+        else
+        {
+            
+            res.redirect('/saved');
+        }
+
+
+    });
+
+});
+
+
+app.post('/delete_saved_hike', function(req, res)
+{
+
+    let hikeID = req.body.hike;
+    let userID = req.body.user;
+
+    parameters = [userID, hikeID]
+
+    let delete_saved_hike = `DELETE FROM Saved WHERE UserID = ? AND HikeID = ?`;
+
+    db.pool.query(delete_saved_hike, parameters, function(error, result)
+    {
+        if (error) 
+        {
+            console.log(error);
+            res.sendStatus(500);
+        }
+        else
+        {
+            
+            res.redirect('/saved');
+        }
+
+
+    });
+
+});
+
+app.post('/delete_user', function(req, res)
+{
+    let userID = req.body.user;
+
+    let delete_user = 'DELETE FROM Users WHERE UserID = ?';
+    let delete_user_review = 'DELETE FROM Reviews WHERE UserID = ?';
+    let delete_user_saved = 'DELETE FROM Saved WHERE UserID = ?';
+    
+    let parameters = [userID];
+    
+
+    db.pool.query(delete_user_saved, parameters, function(error, result)
+    {
+        if (error) 
+        {
+            
+            console.log(error);
+            res.sendStatus(500);
+        }
+        else
+        {
+            db.pool.query(delete_user_review, parameters, function(error, result)
+            {   
+                if (error)
+                {
+                    console.log(error);
+                    res.sendStatus(500);
+                }
+                else
+                {
+                    db.pool.query(delete_user, parameters, function(error, result)
+                    {
+                        if (error)
+                        {
+                            console.log(error);
+                            res.sendStatus(500);
+                        }
+                        else
+                        {
+                            res.redirect('/users');
+
+                        }
+
+                    });
+                }
+            });
+
+        }
+
+    });
+
+});
 
 
 

@@ -118,6 +118,81 @@
 
 
 
+        <h3>Delete a Review </h3>
+        <form id="delete_review" method="POST" action="/delete_review">
+            <label for="review">Select Review:</label>
+            <select id="review" name="review" required>
+                <option value="">Select a Review</option>
+                {{#each reviews}}
+                <option value="{{this.ReviewID}}">{{ReviewID}}</option>
+                {{/each}}
+            </select><br>
+
+            
+
+            <button type="submit">Delete</button>
+        </form>
+
+
+        <h3>Save a Hike </h3>
+        <form id="save_hike" method="POST" action="/save_hike">
+            <label for="hike">Select Hike:</label>
+            <select id="hike" name="hike" required>
+                <option value="">Select a hike</option>
+                {{#each hikes}}
+                <option value="{{this.HikeID}}">{{Name}}</option>
+                {{/each}}
+            </select><br>
+
+            <label for="user">Select User:</label>
+            <select id="user" name="user" required>
+                <option value="">Select User</option>
+                {{#each users}}
+                <option value="{{this.UserID}}">{{Name}}</option>
+                {{/each}}
+            </select><br>
+
+            <button type="submit">Save</button>
+
+        </form>
+
+        <h3>Delete a Saved Hike </h3>
+        <form id="delete_saved_hike" method="POST" action="/delete_saved_hike">
+            <label for="hike">Select Hike:</label>
+            <select id="hike" name="hike" required>
+                <option value="">Select a hike</option>
+                {{#each hikes}}
+                <option value="{{this.HikeID}}">{{Name}}</option>
+                {{/each}}
+            </select><br>
+
+            <label for="user">Select User:</label>
+            <select id="user" name="user" required>
+                <option value="">Select User</option>
+                {{#each users}}
+                <option value="{{this.UserID}}">{{Name}}</option>
+                {{/each}}
+            </select><br>
+
+            
+
+            <button type="submit">Delete</button>
+        </form>
+
+        <h3>Delete User </h3>
+        <form id="delete_user" method="POST" action="/delete_user">
+            <label for="user">Select User:</label>
+            <select id="user" name="user" required>
+                <option value="">Select a user</option>
+                {{#each users}}
+                <option value="{{this.UserID}}">{{Name}}</option>
+                {{/each}}
+            </select><br>
+            <button type="submit">Delete User</button>
+        </form>
+
+
+
     </main>
 </body>
 </html>
