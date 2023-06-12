@@ -27,17 +27,20 @@
     <nav>
       <ul>
         <li><a href="/">Home</a></li>
+        <li><a href="/hikes">View Saved Hikes</a></li>
         <li><a href="/edit_hikes">Edit Database</a></li>
         <li><a href="/users">View Users</a></li>
         <li><a href="/saved">View Saved Hikes</a></li>
-        <li><a href="/search">Search Hikes</a></li>
       </ul>
     </nav>
   </header>
   <main>
 
-    <h2>View Hikes</h2>
-    <table>
+    <h2>Search Hike</h2>
+    
+    <input type="text" id="searchBar" placeholder="Search by name" onkeyup="filterTable()">
+    
+    <table id="hikesTable">
       <thead>
         <tr>
           <th>Name</th>
@@ -63,25 +66,28 @@
         </tr>
       </tbody>
     </table>
-    <h2>Reviews</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Review ID</th>
-          <th>Rating</th>
-          <th>Comment</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each reviews}}
-          <tr>
-            <td>{{ReviewID}}</td>
-            <td>{{Rating}}</td>
-            <td>{{Comment}}</td>
-          </tr>
-        {{/each}}
-      </tbody>
-    </table>
+
   </main>
+
+  <script>
+    function filterTable() {
+      var input = document.getElementById("searchBar");
+      var filter = input.value.toUpperCase();
+      var table = document.getElementById("hikesTable");
+      var rows = table.getElementsByTagName("tr");
+
+      for (var i = 0; i < rows.length; i++) {
+        var nameColumn = rows[i].getElementsByTagName("td")[0];
+        if (nameColumn) {
+          var nameValue = nameColumn.textContent || nameColumn.innerText;
+          if (nameValue.toUpperCase().indexOf(filter) > -1) {
+            rows[i].style.display = "";
+          } else {
+            rows[i].style.display = "none";
+          }
+        }
+      }
+    }
+  </script>
 </body>
 </html>

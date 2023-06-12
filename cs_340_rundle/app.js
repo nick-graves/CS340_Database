@@ -114,6 +114,27 @@ app.get('/edit_hikes', function(req, res)
 
 
 
+app.get('/search', function(req, res)
+{
+
+    let getHikesQuery = 'SELECT HikeID, Name, Location, Distance, Elevation, Difficulty, Description FROM Hikes;';
+
+    db.pool.query(getHikesQuery, function(error, hikesRows, fields) 
+    {
+        if (error) 
+        {
+            console.error(error);
+            res.sendStatus(500);
+        } 
+        else 
+        {
+            res.render('searchHikes', { hikes: hikesRows});
+        }
+    });
+
+
+});
+
 
 
 
@@ -593,6 +614,7 @@ app.post('/delete_user', function(req, res)
     });
 
 });
+
 
 
 
